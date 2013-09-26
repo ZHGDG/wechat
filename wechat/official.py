@@ -37,7 +37,8 @@ class WxRequest(object):
         for param in params:
             if param.childNodes:
                 text = param.childNodes[0]
-                self.__dict__.update({param.tagName: text.data})
+                #print "text.data: ", text.data.encode('utf-8')
+                self.__dict__.update({param.tagName: text.data.encode('utf-8')})
             else:
                 self.__dict__.update({param.tagName: ''})
 
@@ -123,6 +124,9 @@ class WxApplication(object):
     UNSUPPORT_TXT = u'暂不支持此类型消息'
     WELCOME_TXT = u'你好！感谢您的关注！'
     SECRET_TOKEN = None
+
+    def __init__(self, token=None):
+        self.token = token if token else self.SECRET_TOKEN
 
     def is_valid_params(self, params):
         timestamp = params.get('timestamp', '')
